@@ -9,6 +9,7 @@ import java.util.Map;
 public class HelloController{
     @GetMapping("/hello")
     public String sayHello(){
+
         return "Hello Sahil";
     }
 //    @PostMapping("/hello")  --for simple string format out put
