@@ -1,28 +1,33 @@
 package com.sahil.spring_boot_kickoff.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "messages")
 public class HelloMessage {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String message;
-    public HelloMessage(){
+
+    public HelloMessage() {
 
     }
-
-    public HelloMessage(int id, String message){
-        this.id=id;
-        this.message=message;
+    public HelloMessage(String message) {
+        this.message = message;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public void setId(int id){
-        this.id=id;
-    }
-    public String getMessage(){
+    public String getMessage() {
         return message;
     }
-    public void setMessage(String message){
-        this.message=message;
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
