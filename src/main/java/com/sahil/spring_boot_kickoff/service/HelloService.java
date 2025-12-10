@@ -1,40 +1,43 @@
 package com.sahil.spring_boot_kickoff.service;
 import com.sahil.spring_boot_kickoff.model.HelloMessage;
+import com.sahil.spring_boot_kickoff.repository.HelloRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class HelloService {
+    @Autowired
 
-    private final List<HelloMessage> messages =new ArrayList<>();
+    private HelloRepo helloRepo;
 
     public HelloMessage addMessage(HelloMessage message){
-        messages.add(message);
-        return message;
+        return helloRepo.save(message);
     }
 
     public List<HelloMessage> getMessages(){
-        return messages;
+        return helloRepo.findAll();
     }
 
     public HelloMessage getMessageById(int id){
-        Optional<HelloMessage> msg=messages.stream().filter(m->m.getId()==id).findFirst();
-        return msg.orElse(null);
+        return helloRepo.findById(id).orElse(null);
     }
 
     public HelloMessage updateMessage(int id, String newMessage){
-        for(HelloMessage msg:messages){
-            if(msg.getId()==id){
-                msg.setMessage(newMessage);
-                return msg;
-            }
+        HelloMessage msg = helloRepo.findById(id).orElse(null);
+        if (msg !=null){
+            msg.setMessage(newMessage);
+            return helloRepo.save(msg);
         }
         return null;
     }
 
     public boolean deleteMessage(int id){
-        return messages.removeIf(m->m.getId()==id);
+        if (helloRepo.existsById(id)){
+            helloRepo.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
